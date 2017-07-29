@@ -62,6 +62,7 @@ public class HomeController {
 		snipplets.add(snip);
 		
 		cat.setSnipplets(snipplets);
+		cat.setUser(user);
 		
 		userDao.saveUser(user);
 		

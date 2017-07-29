@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.sourcesistemas.model.User;
@@ -32,6 +33,19 @@ public class UserDAOImpl implements UserDAO {
 		
 		
 		sessionFactory.getCurrentSession().save(user);
+		
+	}
+
+	@Override
+	@Transactional
+	public User getUsernameByName(String username) {
+		
+		String query = "from User where name = :username";
+		Query hibernateQuery = sessionFactory.getCurrentSession().createQuery(query);
+		hibernateQuery.setParameter("username", username);
+		List<User> users = hibernateQuery.list();
+		return users.get(0);
+		
 		
 	}
 

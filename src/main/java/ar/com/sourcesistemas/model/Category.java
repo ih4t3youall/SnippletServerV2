@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-
-
 @Entity
 public class Category {
 
@@ -24,7 +22,7 @@ public class Category {
 	private String nombreCategoria;
 	@ManyToOne
 	private User user;
-	@OneToMany(mappedBy = "categoria", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	private List<Snipplet> snipplets;
 
 	public Long getId() {
@@ -33,6 +31,14 @@ public class Category {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getNombreCategoria() {
