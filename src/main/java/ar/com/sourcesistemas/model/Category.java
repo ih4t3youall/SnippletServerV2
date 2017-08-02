@@ -12,17 +12,22 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Category {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Expose
 	private Long id;
 	@Column(name = "nombreCategoria")
+	@Expose
 	private String nombreCategoria;
 	@ManyToOne
 	private User user;
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	@Expose
 	private List<Snipplet> snipplets;
 
 	public Long getId() {

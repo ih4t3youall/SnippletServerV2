@@ -22,11 +22,12 @@ public class HomeController {
 	@Autowired
 	private UserDAO userDao;
 	
-	@RequestMapping(value="/")
+	@RequestMapping(value="/home")
 	public ModelAndView home() {
 		List<User> listUsers = userDao.list();
 		ModelAndView model = new ModelAndView("home");
-		model.addObject("userList", listUsers);
+		listUsers.get(0).getCategory();
+		model.addObject("user", listUsers.get(0));
 		return model;
 	}
 	

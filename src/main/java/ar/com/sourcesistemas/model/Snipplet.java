@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Snipplet implements Serializable {
 
@@ -19,8 +21,11 @@ public class Snipplet implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Expose
 	private Long id;
+	@Expose
 	private String titulo;
+	@Expose
 	private String contenido;
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")

@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "USER")
 public class User {
@@ -25,20 +27,21 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
+	@Expose
 	private long id;
-
+	@Expose
 	@Column(unique = true)
 	private String name;
-
+	@Expose
 	@Column(name = "active")
 	private int active;
-
+	@Expose
 	private String password;
-
+	@Expose
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
-	
+	@Expose
 	@OneToMany(mappedBy="user",cascade = CascadeType.ALL)
 	private List<Category> category;
 	

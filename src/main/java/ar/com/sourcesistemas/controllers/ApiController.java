@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.internal.util.SerializationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,6 @@ import ar.com.sourcesistemas.utilities.ProgramHelpClass;
 
 @RestController
 public class ApiController {
-//	@Autowired
-//	private Persistencia persistencia;
 
 	@Autowired
 	private UserDAO userDAO;
@@ -31,30 +30,22 @@ public class ApiController {
 	@Autowired
 	private GsonUtility gson;
 
-//	private ObjectMapper objMapper = new ObjectMapper();
+
 	@Transactional
 	@RequestMapping(value = "/saveCategory", method = RequestMethod.POST)
 	public String guardarCategoria(@RequestBody String requestSendDTO){
-		
+		gson.getGson().fromJson(requestSendDTO,SendDTO.class);
 		SendDTO sendDTO = gson.getGson().fromJson(requestSendDTO, SendDTO.class);
-		
 		User recoveredUser = userDAO.getUsernameByName(sendDTO.getUsername());
 		
-		Category newCat = progHelp.getNewCategory();
+		List<Category> recoveredCategory =  recoveredUser.getCategory();
 		
-		List<Category> categorys = recoveredUser.getCategory();
 		
-		for (Category category : categorys) {
-			System.out.println(category.getNombreCategoria());
-			
-			
-		}
 		
-		recoveredUser.getCategory().add(newCat);
 		
 		userDAO.saveUser(recoveredUser);
-		
-		return "esito";
+		String something = gson.getGsonWithExclusion().toJson(recoveredUser);
+		return something;
 	}
 	
 }
