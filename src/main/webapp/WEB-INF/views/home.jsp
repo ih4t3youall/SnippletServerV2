@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Home</title>
+<script src="<c:url value="/resources/js/jquery.js" />"></script>
 <link
 	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
@@ -14,40 +15,50 @@
 <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 
 
+
+<script type="text/javascript">
+
+
+function getSnipplets(categoriaId){
+	
+	$.ajax({
+		url : "getSnipplets",
+		type : "GET",
+		data : "categoryId="+categoriaId,
+		success : function(response) {
+			$("#snipplet").empty();
+			 $("#snipplet").append(response);
+			 $("#snipplet").show();
+			
+		}
+	});
+	
+	
+}
+
+</script>
+
 </head>
 <div class="row">
 	<div id="category" class="col-md-6">
-		<h2>My Phonebook</h2>
+		<h2>Categorys</h2>
 
 		<input type="text" id="myInput" onkeyup="myFunction()"
 			placeholder="Search for names.." title="Type in a name">
 
 		<ul id="myUL">
 
-			<c:forEach var="category" items="${user.category}" varStatus="status">
+			<c:forEach var="cat" items="${category}" varStatus="status">
 
-				<li><a href="#" onClick="">${category.nombreCategoria}</a></li>
+				<li><a href="#" onClick="getSnipplets('${cat.categoriaID}')">${cat.nombre}</a></li>
 				
 			</c:forEach>
-			<!-- <ul id="myUL"> -->
-			<!--   <li><a href="#">Adele</a></li> -->
-			<!--   <li><a href="#">Agnes</a></li> -->
-			<!--   <li><a href="#">Billy</a></li> -->
-			<!--   <li><a href="#">Bob</a></li> -->
-			<!--   <li><a href="#">Calvin</a></li> -->
-			<!--   <li><a href="#">Christina</a></li> -->
-			<!--   <li><a href="#">Cindy</a></li> -->
-			<!-- </ul> -->
 		</ul>
 	</div>
-	<div id="snipplet" class="col-md-6">
+	<h2>Snipplets</h2>
+	<div id="snipplet" class="col-md-6" style="display: none;">
+	
 
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Panel title</h3>
-			</div>
-			<div class="panel-body">Panel contentPanel</div>
-		</div>
 
 	</div>
 </div>

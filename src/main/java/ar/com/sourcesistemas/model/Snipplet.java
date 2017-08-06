@@ -2,6 +2,7 @@ package ar.com.sourcesistemas.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,12 +27,21 @@ public class Snipplet implements Serializable {
 	@Expose
 	private String titulo;
 	@Expose
+	@Column(length = 4000)
 	private String contenido;
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	private Category categoria;
 	
 	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getTitulo() {
 		return titulo;

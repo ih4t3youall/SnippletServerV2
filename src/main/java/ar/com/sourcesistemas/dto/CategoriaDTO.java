@@ -1,12 +1,10 @@
 package ar.com.sourcesistemas.dto;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.sourcesistemas.model.Snipplet;
-
-
-
 
 public class CategoriaDTO implements Serializable {
 
@@ -15,8 +13,9 @@ public class CategoriaDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private long categoriaID;
 	private String nombre;
-	private List<Snipplet> snipplets;
+	private List<SnippletDTO> snipplets;
 	private List<String> tags;
 
 	public CategoriaDTO() {
@@ -27,10 +26,18 @@ public class CategoriaDTO implements Serializable {
 
 	}
 
-	public void addSnipplet(Snipplet snipplet) {
+	public long getCategoriaID() {
+		return categoriaID;
+	}
+
+	public void setCategoriaID(long categoriaID) {
+		this.categoriaID = categoriaID;
+	}
+
+	public void addSnipplet(SnippletDTO snipplet) {
 		if (snipplets == null) {
 
-			snipplets = new ArrayList<Snipplet>();
+			snipplets = new ArrayList<SnippletDTO>();
 
 		}
 
@@ -46,11 +53,11 @@ public class CategoriaDTO implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<Snipplet> getSnipplets() {
+	public List<SnippletDTO> getSnipplets() {
 		return snipplets;
 	}
 
-	public void setSnipplets(List<Snipplet> snipplets) {
+	public void setSnipplets(List<SnippletDTO> snipplets) {
 		this.snipplets = snipplets;
 	}
 

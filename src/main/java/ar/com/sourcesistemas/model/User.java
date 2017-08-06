@@ -1,5 +1,6 @@
 package ar.com.sourcesistemas.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -52,6 +53,16 @@ public class User {
 
 	public void setCategory(List<Category> category) {
 		this.category = category;
+	}
+	
+	public void addCategory(Category categoryToAdd) {
+		
+		if(category == null) {
+			category = new ArrayList<Category>();
+		}
+		
+		category.add(categoryToAdd);
+		
 	}
 
 	public int getActive() {
