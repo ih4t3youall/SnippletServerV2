@@ -14,27 +14,66 @@
 <link href="<c:url value="/resources/css/list.css" />" rel="stylesheet">
 <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 
+<style>
+.list-group-item:hover {
+	background-color: grey;
+}
 
+.limit {
+	height: 100px;
+}
+
+nav ul {
+	height: 500px;
+	width: 99%;
+}
+
+nav ul {
+	overflow: hidden;
+	overflow-y: scroll;
+}
+</style>
 
 <script type="text/javascript">
+	function getSnipplets(categoriaId) {
 
+		$.ajax({
+			url : "getSnipplets",
+			type : "GET",
+			data : "categoryId=" + categoriaId,
+			success : function(response) {
+				$("#snipplet").empty();
+				$("#snipplet").append(response);
+				$("#snipplet").show();
 
-function getSnipplets(categoriaId){
+			}
+		});
+
+	}
 	
-	$.ajax({
-		url : "getSnipplets",
-		type : "GET",
-		data : "categoryId="+categoriaId,
-		success : function(response) {
-			$("#snipplet").empty();
-			 $("#snipplet").append(response);
-			 $("#snipplet").show();
-			
-		}
-	});
+	function refreshSnipplet(snipplet){
+		
+		$("#"+snipplet.id).find(".panel-body").html(snipplet.contenido);
+		$("#"+snipplet.id).find(".panel-title").html(snipplet.titulo);
+		
+		
+	}
 	
-	
-}
+	function editSnipplet(id){
+		
+		$.ajax({
+			url : "getModal",
+			type : "GET",
+			data : "snippletId=" + id,
+			success : function(response) {
+				$("#modal").empty();
+				$("#modal").append(response);
+				$('#modal-editar-snipplet').modal('show');
+
+			}
+		});
+		
+	}
 
 </script>
 
@@ -45,23 +84,23 @@ function getSnipplets(categoriaId){
 
 		<input type="text" id="myInput" onkeyup="myFunction()"
 			placeholder="Search for names.." title="Type in a name">
-
+		<nav>
 		<ul id="myUL">
 
 			<c:forEach var="cat" items="${category}" varStatus="status">
 
 				<li><a href="#" onClick="getSnipplets('${cat.categoriaID}')">${cat.nombre}</a></li>
-				
+
 			</c:forEach>
 		</ul>
+		</nav>
 	</div>
 	<h2>Snipplets</h2>
-	<div id="snipplet" class="col-md-6" style="display: none;">
-	
-
-
-	</div>
+	<div id="snipplet" class="col-md-6" style="display: none;"></div>
 </div>
+
+<div id="modal"></div>
+
 <script>
 	function myFunction() {
 		var input, filter, ul, li, a, i;

@@ -5,7 +5,7 @@
 
 <c:forEach var="snip" items="${snipplets}" varStatus="status">
 
-	<div class="panel panel-primary">
+	<div id="${snip.id}" class="panel panel-primary" onclick="editSnipplet('${snip.id}')">
 	<p style="display: none;">${snip.id} </p>
 		<div class="panel-heading">
 			<h3 class="panel-title">${snip.titulo}</h3>

@@ -2,8 +2,10 @@ package ar.com.sourcesistemas.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 import ar.com.sourcesistemas.model.Snipplet;
 
@@ -20,6 +22,19 @@ public class SnippletDAOImpl implements SnippletDAO {
 		
 		return snipplets;
 	}
+	
+	@Override
+	public Snipplet getSnippletById(long snippletId) {
+		Criteria crit = sessionFactory.getCurrentSession().createCriteria(Snipplet.class).add(Restrictions.eq("id", snippletId));
+		return (Snipplet)crit.list().get(0);
+	}
+	
+	@Override
+	public void saveSnipplet(Snipplet snipplet) {
+		sessionFactory.getCurrentSession().save(snipplet);
+		
+	}
+
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -28,5 +43,8 @@ public class SnippletDAOImpl implements SnippletDAO {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+	
+
 
 }
