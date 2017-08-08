@@ -117,31 +117,19 @@ public class AjaxController {
 		
 		boolean isUser = false;
 		
-		for (Category category :user.getCategory()) {
+		Snipplet snippletById = snippletDAO.getSnippletById(snippletAux.getId());
+		
+		for(Category category :user.getCategory()) {
 			
-			if(category.getId().equals(fixedId)) {
+			if(category.getId().equals(categoryId)) {
 				
-				for (Snipplet snipplet : category.getSnipplets()) {
-					
-					if(snipplet.getId().equals(snippletAux.getId())) {
-						
-						isUser =true;
-						break;
-						
-					}
-					
-				}
-				
-				if(isUser)
-					break;
+				category.getSnipplets().remove(snippletById);
 				
 			}
 			
 		}
 		
-		if(isUser)
-			snippletDAO.removeSnipplet(snippletAux.getId());
-		
+		userDAO.update(user);
 		
 		return null;
 		

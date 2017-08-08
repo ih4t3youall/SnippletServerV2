@@ -49,4 +49,10 @@ public class UserDAOImpl implements UserDAO {
 		
 	}
 
+	@Override
+	public void update(User user) {
+		this.sessionFactory.getCurrentSession().update(user);
+		
+	}
+
 }
