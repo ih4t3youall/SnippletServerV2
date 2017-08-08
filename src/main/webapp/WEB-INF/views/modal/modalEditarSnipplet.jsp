@@ -1,5 +1,24 @@
 <script type="text/javascript">
 
+function eliminarSnipplet(){
+	
+	var snipplet = new Object();
+	
+	snipplet.id = $("#snipplet-id").html();
+	var toSend =JSON.stringify(snipplet);
+	var categoriaId = $("#category-snipplet-id").html();
+	$.ajax({
+		url : "eliminarSnipplet",
+		type : "POST",
+		data : "jsonSnipplet=" + toSend+"&categoryId="+categoriaId,
+		success : function(response) {
+			$('#modal-editar-snipplet').modal('hide');
+			getSnipplets(categoriaId);
+		}
+	});
+	
+}
+
 function cerrarModalEditarSnipplet(){
 	
 	var snipplet = new Object();
@@ -46,6 +65,8 @@ function cerrarModalEditarSnipplet(){
 					<div class="modal-agregar-categoria-footer">
 						<button type="button" class="btn btn-default"
 							onclick="cerrarModalEditarSnipplet()">Close</button>
+							<button type="button" class="btn btn-default"
+							onclick="eliminarSnipplet()">Eliminar Snipplet</button>
 					</div>
 				</div>
 			</div>

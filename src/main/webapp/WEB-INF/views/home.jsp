@@ -37,6 +37,8 @@ nav ul {
 <script type="text/javascript">
 	function getSnipplets(categoriaId) {
 
+		$("#category-snipplet-id").html(categoriaId);
+		
 		$.ajax({
 			url : "getSnipplets",
 			type : "GET",
@@ -74,13 +76,42 @@ nav ul {
 		});
 		
 	}
+	
+	
+	//snipplet things
+	
+	function addSnipplet(){
+		
+		var categoriaId = $("#category-snipplet-id").html();
+		
+		if(categoriaId != ""){
+		
+		$.ajax({
+			url : "getModalAddSnipplet",
+			type : "GET",
+			success : function(response) {
+				$("#modal").empty();
+				$("#modal").append(response);
+				$('#modal-crear-snipplet').modal('show');
+
+			}
+		});
+		}else{
+			
+			alert("debe selccionar una categoria");
+			
+		}
+		
+		
+	}
 
 </script>
 
 </head>
 <div class="row">
 	<div id="category" class="col-md-6">
-		<h2>Categorys</h2>
+		<button type="button" class="btn btn-outline-danger">Agregar Categoria</button>
+		<h2>Categorias</h2>
 
 		<input type="text" id="myInput" onkeyup="myFunction()"
 			placeholder="Search for names.." title="Type in a name">
@@ -95,7 +126,9 @@ nav ul {
 		</ul>
 		</nav>
 	</div>
+	<button type="button" class="btn btn-outline-danger" onClick="addSnipplet()">Agregar Snipplet</button>
 	<h2>Snipplets</h2>
+	<p style="visibility: hidden;" id="category-snipplet-id"></p>
 	<div id="snipplet" class="col-md-6" style="display: none;"></div>
 </div>
 

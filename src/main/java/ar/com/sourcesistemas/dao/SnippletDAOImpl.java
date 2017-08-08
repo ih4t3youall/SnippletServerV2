@@ -44,6 +44,13 @@ public class SnippletDAOImpl implements SnippletDAO {
 		this.sessionFactory = sessionFactory;
 	}
 
+	@Override
+	public void removeSnipplet(Long id) {
+		Snipplet snippletById = getSnippletById(id);
+		this.sessionFactory.getCurrentSession().delete(snippletById);
+		
+	}
+
 	
 
 

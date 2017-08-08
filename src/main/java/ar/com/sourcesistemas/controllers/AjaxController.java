@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.com.sourcesistemas.dao.SnippletDAO;
+import ar.com.sourcesistemas.dao.UserDAO;
+import ar.com.sourcesistemas.model.Category;
 import ar.com.sourcesistemas.model.Snipplet;
+import ar.com.sourcesistemas.model.User;
 import ar.com.sourcesistemas.utilities.GsonUtility;
 
 @RestController
@@ -19,6 +22,9 @@ public class AjaxController {
 	
 	@Autowired
 	private SnippletDAO snippletDAO;
+	
+	@Autowired
+	private UserDAO userDAO;
 	
 	@Autowired
 	private GsonUtility gsonUtility;
@@ -61,6 +67,85 @@ public class AjaxController {
 		return "200ok";
 		 
 		 
+		
+	}
+	
+	@Transactional
+	@RequestMapping(value ="createNewSnipplet", method =RequestMethod.POST)
+	public String createNewSnipplet(String jsonSnipplet,String categoryId ) {
+		
+		Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
+		//FIXME when i have spring security
+		User user = userDAO.getUsernameByName("martin");
+		
+		long fixedId = Long.parseLong(categoryId);
+		
+		for( Category category : user.getCategory()) {
+			
+			if(category.getId() == fixedId) {
+				snippletAux.setCategoria(category);
+				category.getSnipplets().add(snippletAux);
+				break;
+			}
+			
+		}
+		
+		userDAO.saveUser(user);
+		return "200ok";
+		
+		
+	}
+	
+	@Transactional
+	@RequestMapping(value = "getModalAddSnipplet", method = RequestMethod.GET)
+	public ModelAndView getModalAddSnipplet() {
+		
+		ModelAndView mav = new ModelAndView("modal/addSnipplet");
+		return mav;
+		
+	}
+	
+	@Transactional
+	@RequestMapping(value = "eliminarSnipplet", method = RequestMethod.POST)
+	public String eliminarSnipplet(String jsonSnipplet,String categoryId) {
+		Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
+		
+		long fixedId = Long.parseLong(categoryId);
+		
+		//FIXME spring security
+		User user = userDAO.getUsernameByName("martin");
+		
+		boolean isUser = false;
+		
+		for (Category category :user.getCategory()) {
+			
+			if(category.getId().equals(fixedId)) {
+				
+				for (Snipplet snipplet : category.getSnipplets()) {
+					
+					if(snipplet.getId().equals(snippletAux.getId())) {
+						
+						isUser =true;
+						break;
+						
+					}
+					
+				}
+				
+				if(isUser)
+					break;
+				
+			}
+			
+		}
+		
+		if(isUser)
+			snippletDAO.removeSnipplet(snippletAux.getId());
+		
+		
+		return null;
+		
+		
 		
 	}
 	
