@@ -1,5 +1,6 @@
 package ar.com.sourcesistemas.controllers;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -106,6 +107,55 @@ public class AjaxController {
 	}
 	
 	@Transactional
+	@RequestMapping(value = "getModalAddCategory", method = RequestMethod.GET)
+	public ModelAndView getModalAddCategory() {
+		
+		ModelAndView mav = new ModelAndView("modal/addCategory");
+		return mav;
+		
+	}
+	
+	@Transactional
+	@RequestMapping(value="createNewCategory", method =RequestMethod.GET)
+	public String createNewCategory(String categoryTitle) {
+		
+		//FIXME spring security
+		User user = userDAO.getUsernameByName("martin");
+		Category category = new Category();
+		category.setNombreCategoria(categoryTitle);
+		category.setUser(user);
+		user.getCategory().add(category);
+		userDAO.update(user);
+		
+		return "200ok";
+		
+	}
+	@Transactional
+	@RequestMapping(value ="deleteCategory", method =RequestMethod.POST)
+	public String deleteCategory(String categoryId) {
+		
+		User user =userDAO.getUsernameByName("martin");
+		
+		Iterator<Category> iterator = user.getCategory().iterator();
+		
+		long fixedId = Long.parseLong(categoryId);
+		
+		while(iterator.hasNext()) {
+			Category category = iterator.next();
+			if(category.getId() == fixedId) {
+				iterator.remove();
+				break;
+				
+			}
+			
+			
+		}
+		userDAO.saveUser(user);
+		return "200ok";
+		
+	}
+	
+	@Transactional
 	@RequestMapping(value = "eliminarSnipplet", method = RequestMethod.POST)
 	public String eliminarSnipplet(String jsonSnipplet,String categoryId) {
 		Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
@@ -117,25 +167,33 @@ public class AjaxController {
 		
 		boolean isUser = false;
 		
-		Snipplet snippletById = snippletDAO.getSnippletById(snippletAux.getId());
 		
 		for(Category category :user.getCategory()) {
 			
-			if(category.getId().equals(categoryId)) {
+			if(category.getId() == fixedId) {
 				
-				category.getSnipplets().remove(snippletById);
+				Iterator<Snipplet>i = category.getSnipplets().iterator();
+				while(i.hasNext()) {
+					Snipplet snipplet = i.next();
+					if (snipplet.getId().equals(snippletAux.getId())) {
+						i.remove();
+						break;
+					}
+					
+					
+				}
 				
 			}
 			
 		}
+		userDAO.saveUser(user);
 		
-		userDAO.update(user);
-		
-		return null;
+		return "200ok";
 		
 		
 		
 	}
+	
 	
 	
 	

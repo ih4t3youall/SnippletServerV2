@@ -26,7 +26,7 @@ public class Category {
 	private String nombreCategoria;
 	@ManyToOne
 	private User user;
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Expose
 	private List<Snipplet> snipplets;
 

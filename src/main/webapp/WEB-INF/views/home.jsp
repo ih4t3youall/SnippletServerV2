@@ -80,6 +80,35 @@ nav ul {
 	
 	//snipplet things
 	
+	function deleteCategory(){
+		
+		var categoriaId = $("#category-snipplet-id").html();
+		if(categoriaId != ""){
+			
+			$.ajax({
+				url : "deleteCategory",
+				type : "POST",
+				data:"categoryId="+categoriaId,
+				success : function(response) {
+					
+					alert("categoria eliminada con exito! ");
+					location.reload();
+
+				}
+			});
+			}else{
+				
+				alert("debe selccionar una categoria");
+				
+			}
+			
+		
+	}
+	
+	
+	
+	
+	
 	function addSnipplet(){
 		
 		var categoriaId = $("#category-snipplet-id").html();
@@ -104,13 +133,31 @@ nav ul {
 		
 		
 	}
+	
+	function addCategory(){
+		
+		
+		
+		$.ajax({
+			url : "getModalAddCategory",
+			type : "GET",
+			success : function(response) {
+				$("#modal").empty();
+				$("#modal").append(response);
+				$('#modal-crear-categoria').modal('show');
+
+			}
+		});
+		
+		
+	}
 
 </script>
 
 </head>
 <div class="row">
 	<div id="category" class="col-md-6">
-		<button type="button" class="btn btn-outline-danger">Agregar Categoria</button>
+		<button type="button" class="btn btn-outline-danger" onClick="addCategory()">Agregar Categoria</button>
 		<h2>Categorias</h2>
 
 		<input type="text" id="myInput" onkeyup="myFunction()"
@@ -127,6 +174,7 @@ nav ul {
 		</nav>
 	</div>
 	<button type="button" class="btn btn-outline-danger" onClick="addSnipplet()">Agregar Snipplet</button>
+	<button type="button" class="btn btn-outline-danger" onClick="deleteCategory()">Eliminar Categoria</button>
 	<h2>Snipplets</h2>
 	<p style="visibility: hidden;" id="category-snipplet-id"></p>
 	<div id="snipplet" class="col-md-6" style="display: none;"></div>

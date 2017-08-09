@@ -43,7 +43,7 @@ public class User {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 	@Expose
-	@OneToMany(mappedBy="user",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="user",cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Category> category;
 	
 
