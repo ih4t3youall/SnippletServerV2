@@ -26,7 +26,7 @@ public class HomeController {
 	@Autowired
 	private UserDAO userDao;
 	
-	@RequestMapping(value="/home")
+	@RequestMapping(value="/admin/home")
 	public ModelAndView home() {
 		List<User> listUsers = userDao.list();
 		ModelAndView model = new ModelAndView("home");
@@ -35,7 +35,7 @@ public class HomeController {
 		return model;
 	}
 	
-	@RequestMapping("/")
+	@RequestMapping("/admin/")
 	@Transactional
 	public ModelAndView index() {
 		
@@ -50,7 +50,7 @@ public class HomeController {
 		
 	}
 	
-	@RequestMapping(value="/prueba")
+	@RequestMapping(value="/admin/prueba")
 	public ModelAndView prueba() {
 		ModelAndView mav = new ModelAndView("exito");
 		

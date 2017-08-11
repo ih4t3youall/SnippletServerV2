@@ -10,7 +10,7 @@ function cerrarModalCrearSnipplet(){
 	var categoriaId = $("#category-snipplet-id").html();
 	
 	$.ajax({
-		url : "createNewSnipplet",
+		url : "/admin/createNewSnipplet",
 		type : "POST",
 		data : "jsonSnipplet=" + toSend+"&categoryId="+categoriaId,
 		success : function(response) {

@@ -30,7 +30,7 @@ public class AjaxController {
 	@Autowired
 	private GsonUtility gsonUtility;
 
-	@RequestMapping("getSnipplets")
+	@RequestMapping("/admin/getSnipplets")
 	@Transactional
 	public ModelAndView getSnipplets(String categoryId) {
 		
@@ -43,7 +43,7 @@ public class AjaxController {
 	}
 	
 	
-	@RequestMapping("getModal")
+	@RequestMapping("/admin/getModal")
 	@Transactional
 	public ModelAndView getModal(String snippletId) {
 		
@@ -55,7 +55,7 @@ public class AjaxController {
 		
 	}
 	@Transactional
-	@RequestMapping(value ="saveEditedSnipplet" , method = RequestMethod.POST)
+	@RequestMapping(value ="/admin/saveEditedSnipplet" , method = RequestMethod.POST)
 	public String saveEditedSnipplet(String jsonSnipplet) {
 		
 		 Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
@@ -72,7 +72,7 @@ public class AjaxController {
 	}
 	
 	@Transactional
-	@RequestMapping(value ="createNewSnipplet", method =RequestMethod.POST)
+	@RequestMapping(value ="/admin/createNewSnipplet", method =RequestMethod.POST)
 	public String createNewSnipplet(String jsonSnipplet,String categoryId ) {
 		
 		Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
@@ -98,7 +98,7 @@ public class AjaxController {
 	}
 	
 	@Transactional
-	@RequestMapping(value = "getModalAddSnipplet", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/getModalAddSnipplet", method = RequestMethod.GET)
 	public ModelAndView getModalAddSnipplet() {
 		
 		ModelAndView mav = new ModelAndView("modal/addSnipplet");
@@ -107,7 +107,7 @@ public class AjaxController {
 	}
 	
 	@Transactional
-	@RequestMapping(value = "getModalAddCategory", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/getModalAddCategory", method = RequestMethod.GET)
 	public ModelAndView getModalAddCategory() {
 		
 		ModelAndView mav = new ModelAndView("modal/addCategory");
@@ -116,7 +116,7 @@ public class AjaxController {
 	}
 	
 	@Transactional
-	@RequestMapping(value="createNewCategory", method =RequestMethod.GET)
+	@RequestMapping(value="/admin/createNewCategory", method =RequestMethod.GET)
 	public String createNewCategory(String categoryTitle) {
 		
 		//FIXME spring security
@@ -131,7 +131,7 @@ public class AjaxController {
 		
 	}
 	@Transactional
-	@RequestMapping(value ="deleteCategory", method =RequestMethod.POST)
+	@RequestMapping(value ="/admin/deleteCategory", method =RequestMethod.POST)
 	public String deleteCategory(String categoryId) {
 		
 		User user =userDAO.getUsernameByName("martin");
@@ -156,7 +156,7 @@ public class AjaxController {
 	}
 	
 	@Transactional
-	@RequestMapping(value = "eliminarSnipplet", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/eliminarSnipplet", method = RequestMethod.POST)
 	public String eliminarSnipplet(String jsonSnipplet,String categoryId) {
 		Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
 		

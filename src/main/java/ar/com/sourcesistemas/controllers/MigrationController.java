@@ -31,7 +31,7 @@ public class MigrationController {
 	@Autowired
 	private UserDAO userDAO;
 	
-	@RequestMapping("migrar")
+	@RequestMapping("/admin/migrar")
 	public void migrar() {
 		
 		
