@@ -1,6 +1,7 @@
 package ar.com.sourcesistemas.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.com.sourcesistemas.dao.UserDAO;
@@ -26,7 +28,7 @@ public class HomeController {
 	@Autowired
 	private UserDAO userDao;
 	
-	@RequestMapping(value="/admin/home")
+	@RequestMapping(value="/admin/home", method = RequestMethod.GET)
 	public ModelAndView home() {
 		List<User> listUsers = userDao.list();
 		ModelAndView model = new ModelAndView("home");
@@ -35,14 +37,12 @@ public class HomeController {
 		return model;
 	}
 	
-	@RequestMapping("/admin/")
+	@RequestMapping(value = "/admin/", method = RequestMethod.GET)
 	@Transactional
 	public ModelAndView index() {
 		
 		List<User> listUsers = userDao.list();
 		ModelAndView model = new ModelAndView("home");
-		listUsers.get(0).getCategory();
-		
 		List<CategoriaDTO> cat =ConvertToDTOUtility.convertToUserDTO(listUsers.get(0));
 		model.addObject("category", cat);
 		return model;
@@ -50,7 +50,7 @@ public class HomeController {
 		
 	}
 	
-	@RequestMapping(value="/admin/prueba")
+	//@RequestMapping(value="/admin/prueba" , method = RequestMethod.GET)
 	public ModelAndView prueba() {
 		ModelAndView mav = new ModelAndView("exito");
 		

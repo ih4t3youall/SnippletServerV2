@@ -3,15 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-	<!-- The definition of the Root Spring Container shared by all Servlets 
-		and Filters -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml,
-		/WEB-INF/spring/security-context.xml
-		
-		</param-value>
-	</context-param>
 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
@@ -29,6 +20,14 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<!-- The definition of the Root Spring Container shared by all Servlets 
+		and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml,
+		/WEB-INF/spring/security-context.xml
+		</param-value>
+	</context-param>
 	<!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>

@@ -30,8 +30,8 @@ public class AjaxController {
 	@Autowired
 	private GsonUtility gsonUtility;
 
-	@RequestMapping("/admin/getSnipplets")
 	@Transactional
+	@RequestMapping(value = "/admin/getSnipplets", method = RequestMethod.GET)
 	public ModelAndView getSnipplets(String categoryId) {
 		
 		List<Snipplet> snipplets = snippletDAO.getSnippletsByCategory(Integer.parseInt(categoryId));
@@ -43,8 +43,8 @@ public class AjaxController {
 	}
 	
 	
-	@RequestMapping("/admin/getModal")
 	@Transactional
+	@RequestMapping(value = "/admin/getModal" , method = RequestMethod.GET)
 	public ModelAndView getModal(String snippletId) {
 		
 		ModelAndView mav = new ModelAndView("modal/modalEditarSnipplet");
@@ -54,6 +54,7 @@ public class AjaxController {
 		return mav;
 		
 	}
+
 	@Transactional
 	@RequestMapping(value ="/admin/saveEditedSnipplet" , method = RequestMethod.POST)
 	public String saveEditedSnipplet(String jsonSnipplet) {
@@ -121,6 +122,7 @@ public class AjaxController {
 		
 		//FIXME spring security
 		User user = userDAO.getUsernameByName("martin");
+
 		Category category = new Category();
 		category.setNombreCategoria(categoryTitle);
 		category.setUser(user);
@@ -134,6 +136,7 @@ public class AjaxController {
 	@RequestMapping(value ="/admin/deleteCategory", method =RequestMethod.POST)
 	public String deleteCategory(String categoryId) {
 		
+		//FIXME spring security
 		User user =userDAO.getUsernameByName("martin");
 		
 		Iterator<Category> iterator = user.getCategory().iterator();
@@ -164,8 +167,6 @@ public class AjaxController {
 		
 		//FIXME spring security
 		User user = userDAO.getUsernameByName("martin");
-		
-		boolean isUser = false;
 		
 		
 		for(Category category :user.getCategory()) {

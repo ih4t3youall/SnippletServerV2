@@ -15,16 +15,26 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.com.sourcesistemas.dao.UserDAO;
 import ar.com.sourcesistemas.model.User;
 
-@Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
-	
-	@Autowired
-	private UserDAO userDAO;
+	private UserDAO userDao;
 
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDAO.getUsernameByName(username);
+		User user;
+		if (userDao == null) {
+
+			user = new User();
+			user.setActive(1);
+			user.setName("martin");
+			user.setPassword("artemisa21");
+			System.out.println("userDAO = null");
+
+		} else {
+			user = userDao.getUsernameByName(username);
+			System.out.println("user loaded from database");
+		}
+
 		System.out.println("User : " + user);
 		if (user == null) {
 			System.out.println("User not found");
@@ -50,6 +60,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		System.out.print("authorities :" + authorities);
 		return authorities;
+	}
+
+	public void setUserDao(UserDAO userDao) {
+		this.userDao = userDao;
 	}
 
 }

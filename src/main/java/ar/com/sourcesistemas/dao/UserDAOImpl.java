@@ -27,21 +27,27 @@ public class UserDAOImpl implements UserDAO {
 		return listUser;
 	}
 	
-	@Transactional
 	@Override
+	@Transactional
 	public void saveUser(User user) {
-		
 		
 		sessionFactory.getCurrentSession().save(user);
 		
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly =true)
 	public User getUsernameByName(String username) {
 		
 		String query = "from User where name = :username";
-		Query hibernateQuery = sessionFactory.getCurrentSession().createQuery(query);
+		Query hibernateQuery = null; 
+		try {
+		hibernateQuery = sessionFactory.getCurrentSession().createQuery(query);
+//		hibernateQuery = sessionFactory.openSession().createQuery(query);
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+		}
 		hibernateQuery.setParameter("username", username);
 		List<User> users = hibernateQuery.list();
 		return users.get(0);

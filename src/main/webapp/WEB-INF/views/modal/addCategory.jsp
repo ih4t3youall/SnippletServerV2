@@ -5,7 +5,7 @@ function cerrarModalCrearCategory(){
 	
 	
 	$.ajax({
-		url : "/admin/createNewCategory",
+		url : "createNewCategory",
 		type : "GET",
 		data : "categoryTitle=" +$("#category-titulo").val(),
 		success : function(response) {

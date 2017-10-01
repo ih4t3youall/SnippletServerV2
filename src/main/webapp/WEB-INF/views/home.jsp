@@ -40,7 +40,7 @@ nav ul {
 		$("#category-snipplet-id").html(categoriaId);
 		
 		$.ajax({
-			url : "/admin/getSnipplets",
+			url : "getSnipplets",
 			type : "GET",
 			data : "categoryId=" + categoriaId,
 			success : function(response) {
@@ -64,7 +64,7 @@ nav ul {
 	function editSnipplet(id){
 		
 		$.ajax({
-			url : "/admin/getModal",
+			url : "getModal",
 			type : "GET",
 			data : "snippletId=" + id,
 			success : function(response) {
@@ -86,7 +86,7 @@ nav ul {
 		if(categoriaId != ""){
 			
 			$.ajax({
-				url : "/admin/deleteCategory",
+				url : "deleteCategory",
 				type : "POST",
 				data:"categoryId="+categoriaId,
 				success : function(response) {
@@ -116,7 +116,7 @@ nav ul {
 		if(categoriaId != ""){
 		
 		$.ajax({
-			url : "/admin/getModalAddSnipplet",
+			url : "getModalAddSnipplet",
 			type : "GET",
 			success : function(response) {
 				$("#modal").empty();
@@ -139,7 +139,7 @@ nav ul {
 		
 		
 		$.ajax({
-			url : "/admin/getModalAddCategory",
+			url : "getModalAddCategory",
 			type : "GET",
 			success : function(response) {
 				$("#modal").empty();

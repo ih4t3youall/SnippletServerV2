@@ -8,7 +8,7 @@ function eliminarSnipplet(){
 	var toSend =JSON.stringify(snipplet);
 	var categoriaId = $("#category-snipplet-id").html();
 	$.ajax({
-		url : "/admin/eliminarSnipplet",
+		url : "eliminarSnipplet",
 		type : "POST",
 		data : "jsonSnipplet=" + toSend+"&categoryId="+categoriaId,
 		success : function(response) {
@@ -30,7 +30,7 @@ function cerrarModalEditarSnipplet(){
 	
 	
 	$.ajax({
-		url : "/admin/saveEditedSnipplet",
+		url : "saveEditedSnipplet",
 		type : "POST",
 		data : "jsonSnipplet=" + toSend,
 		success : function(response) {

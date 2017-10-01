@@ -2,6 +2,8 @@ package ar.com.sourcesistemas.utilities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Repository;
 
 import ar.com.sourcesistemas.dto.CategoriaDTO;
@@ -14,7 +16,7 @@ import ar.com.sourcesistemas.model.User;
 @Repository("ConvertToDTO")
 public class ConvertToDTOUtility {
 	
-	
+	@Transactional
 	public static List<CategoriaDTO> convertToUserDTO(User user) {
 		
 		CategoryViewDTO viewDTO = new CategoryViewDTO();
