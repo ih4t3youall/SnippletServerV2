@@ -1,5 +1,6 @@
 package ar.com.sourcesistemas.controllers;
 
+import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +43,6 @@ public class AjaxController {
 		
 	}
 	
-	
 	@Transactional
 	@RequestMapping(value = "/admin/getModal" , method = RequestMethod.GET)
 	public ModelAndView getModal(String snippletId) {
@@ -74,11 +74,11 @@ public class AjaxController {
 	
 	@Transactional
 	@RequestMapping(value ="/admin/createNewSnipplet", method =RequestMethod.POST)
-	public String createNewSnipplet(String jsonSnipplet,String categoryId ) {
+	public String createNewSnipplet(String jsonSnipplet,String categoryId ,Principal principal) {
 		
 		Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
 		//FIXME when i have spring security
-		User user = userDAO.getUsernameByName("martin");
+		User user = userDAO.getUsernameByName(principal.getName());
 		
 		long fixedId = Long.parseLong(categoryId);
 		
@@ -94,7 +94,6 @@ public class AjaxController {
 		
 		userDAO.saveUser(user);
 		return "200ok";
-		
 		
 	}
 	
@@ -118,10 +117,10 @@ public class AjaxController {
 	
 	@Transactional
 	@RequestMapping(value="/admin/createNewCategory", method =RequestMethod.GET)
-	public String createNewCategory(String categoryTitle) {
+	public String createNewCategory(String categoryTitle, Principal principal) {
 		
-		//FIXME spring security
-		User user = userDAO.getUsernameByName("martin");
+		User user = userDAO.getUsernameByName(principal.getName());
+		
 
 		Category category = new Category();
 		category.setNombreCategoria(categoryTitle);
@@ -132,15 +131,13 @@ public class AjaxController {
 		return "200ok";
 		
 	}
+
 	@Transactional
 	@RequestMapping(value ="/admin/deleteCategory", method =RequestMethod.POST)
-	public String deleteCategory(String categoryId) {
+	public String deleteCategory(String categoryId,Principal principal) {
 		
-		//FIXME spring security
-		User user =userDAO.getUsernameByName("martin");
-		
+		User user =userDAO.getUsernameByName(principal.getName());
 		Iterator<Category> iterator = user.getCategory().iterator();
-		
 		long fixedId = Long.parseLong(categoryId);
 		
 		while(iterator.hasNext()) {
@@ -148,9 +145,7 @@ public class AjaxController {
 			if(category.getId() == fixedId) {
 				iterator.remove();
 				break;
-				
 			}
-			
 			
 		}
 		userDAO.saveUser(user);
@@ -160,14 +155,12 @@ public class AjaxController {
 	
 	@Transactional
 	@RequestMapping(value = "/admin/eliminarSnipplet", method = RequestMethod.POST)
-	public String eliminarSnipplet(String jsonSnipplet,String categoryId) {
+	public String eliminarSnipplet(String jsonSnipplet,String categoryId,Principal principal) {
 		Snipplet snippletAux = gsonUtility.getGsonWithExclusion().fromJson(jsonSnipplet, Snipplet.class);
 		
 		long fixedId = Long.parseLong(categoryId);
 		
-		//FIXME spring security
-		User user = userDAO.getUsernameByName("martin");
-		
+		User user = userDAO.getUsernameByName(principal.getName());
 		
 		for(Category category :user.getCategory()) {
 			
@@ -180,22 +173,14 @@ public class AjaxController {
 						i.remove();
 						break;
 					}
-					
-					
 				}
-				
 			}
-			
 		}
+
 		userDAO.saveUser(user);
-		
 		return "200ok";
 		
-		
-		
 	}
-	
-	
 	
 	
 }

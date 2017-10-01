@@ -1,5 +1,6 @@
 package ar.com.sourcesistemas.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,11 +25,11 @@ import ar.com.sourcesistemas.utilities.ConvertToDTOUtility;
  */
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	private UserDAO userDao;
-	
-	@RequestMapping(value="/admin/home", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
 	public ModelAndView home() {
 		List<User> listUsers = userDao.list();
 		ModelAndView model = new ModelAndView("home");
@@ -36,58 +37,66 @@ public class HomeController {
 		model.addObject("user", listUsers.get(0));
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/admin/", method = RequestMethod.GET)
 	@Transactional
-	public ModelAndView index() {
-		
+	public ModelAndView index(Principal principal) {
+
 		List<User> listUsers = userDao.list();
+		User viewUser = null;
+
+		for (User user : listUsers) {
+
+			if (user.getName().equals(principal.getName())) {
+				viewUser = user;
+				break;
+
+			}
+		}
+
 		ModelAndView model = new ModelAndView("home");
-		List<CategoriaDTO> cat =ConvertToDTOUtility.convertToUserDTO(listUsers.get(0));
+		List<CategoriaDTO> cat = ConvertToDTOUtility.convertToUserDTO(viewUser);
 		model.addObject("category", cat);
 		return model;
-		
-		
+
 	}
-	
-	//@RequestMapping(value="/admin/prueba" , method = RequestMethod.GET)
+
+	// @RequestMapping(value="/admin/prueba" , method = RequestMethod.GET)
 	public ModelAndView prueba() {
 		ModelAndView mav = new ModelAndView("exito");
-		
+
 		User user = new User();
 		user.setName("nombre");
 		user.setPassword("password");
-		
+
 		Category cat = new Category();
 		cat.setNombreCategoria("nombre categoria");
-		
+
 		List<Category> cats = new ArrayList<Category>();
-		
-		
+
 		cats.add(cat);
 		user.setCategory(cats);
-		
+
 		Snipplet snip = new Snipplet();
 		snip.setCategoria(cat);
 		snip.setTitulo("titulo");
 		snip.setContenido("contenido");
-		
+
 		Snipplet snip2 = new Snipplet();
 		snip2.setCategoria(cat);
 		snip2.setTitulo("titulo");
 		snip2.setContenido("contenido");
-		
+
 		List<Snipplet> snipplets = new ArrayList<Snipplet>();
 		snipplets.add(snip2);
 		snipplets.add(snip);
-		
+
 		cat.setSnipplets(snipplets);
 		cat.setUser(user);
-		
+
 		userDao.saveUser(user);
-		
-		
+
 		return mav;
 	}
-	
+
 }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.sourcesistemas.dao.UserDAO;
 import ar.com.sourcesistemas.dto.CategoriaDTO;
-import ar.com.sourcesistemas.dto.SendDTO;
 import ar.com.sourcesistemas.migracion.Persistencia;
 import ar.com.sourcesistemas.model.Category;
 import ar.com.sourcesistemas.model.User;
