@@ -8,7 +8,6 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
 import ar.com.sourcesistemas.model.Category;
-import ar.com.sourcesistemas.model.User;
 
 
 public class CategoryDAOImpl implements CategoryDAO {
@@ -17,6 +16,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	@Transactional
+	@SuppressWarnings("unchecked")
 	public List<Category> getCategoryByUserId(long userId) {
 
 		String sql = "from Category where user_id = :userId";

@@ -53,6 +53,24 @@ nav ul {
 
 	}
 	
+	function cambiarPasswd(){
+		
+		
+		$.ajax({
+			url : "getModalCambioPasswd",
+			type : "GET",
+			success : function(response) {
+				$("#modal").empty();
+				$("#modal").append(response);
+				$('#modal-cambiar-passwd').modal('show');
+
+			}
+		});
+
+		
+		
+	}
+	
 	function refreshSnipplet(snipplet){
 		
 		$("#"+snipplet.id).find(".panel-body").html(snipplet.contenido);
@@ -175,6 +193,7 @@ nav ul {
 	</div>
 	<button type="button" class="btn btn-outline-danger" onClick="addSnipplet()">Agregar Snipplet</button>
 	<button type="button" class="btn btn-outline-danger" onClick="deleteCategory()">Eliminar Categoria</button>
+	<button type="button" class="btn btn-outline-danger" onClick="cambiarPasswd()">Cambiar passwd</button>
 	<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
 	<h2>Snipplets</h2>
 	<p style="visibility: hidden;" id="category-snipplet-id"></p>
