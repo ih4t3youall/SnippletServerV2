@@ -12,4 +12,7 @@ public interface UserDAO {
 	public User getUsernameByName(String username);
 
 	public void update(User user);
+
+
+	void cambiarPassword(String username, String passwd);
 }

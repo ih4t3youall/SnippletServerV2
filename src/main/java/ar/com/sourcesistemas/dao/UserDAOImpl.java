@@ -50,6 +50,7 @@ public class UserDAOImpl implements UserDAO {
 		}
 		hibernateQuery.setParameter("username", username);
 		List<User> users = hibernateQuery.list();
+		//FIXME always get () ?? wtf
 		return users.get(0);
 		
 		
@@ -59,6 +60,14 @@ public class UserDAOImpl implements UserDAO {
 	public void update(User user) {
 		this.sessionFactory.getCurrentSession().update(user);
 		
+	}
+
+	@Override
+	public void cambiarPassword(String username, String passwd) {
+
+		User user =getUsernameByName(username);
+		user.setPassword(passwd);
+		sessionFactory.getCurrentSession().save(user);
 	}
 
 }

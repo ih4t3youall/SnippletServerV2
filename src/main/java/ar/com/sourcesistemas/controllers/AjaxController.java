@@ -105,6 +105,13 @@ public class AjaxController {
 		return mav;
 		
 	}
+
+	@Transactional
+	@RequestMapping(value= "/admin/getModalCambioPasswd", method = RequestMethod.GET)
+	public ModelAndView getModalPassword() {
+		ModelAndView mav = new ModelAndView("modal/cambiarPasswd");
+		return mav;
+	}
 	
 	@Transactional
 	@RequestMapping(value = "/admin/getModalAddCategory", method = RequestMethod.GET)
@@ -120,7 +127,6 @@ public class AjaxController {
 	public String createNewCategory(String categoryTitle, Principal principal) {
 		
 		User user = userDAO.getUsernameByName(principal.getName());
-		
 
 		Category category = new Category();
 		category.setNombreCategoria(categoryTitle);
@@ -129,7 +135,6 @@ public class AjaxController {
 		userDAO.update(user);
 		
 		return "200ok";
-		
 	}
 
 	@Transactional

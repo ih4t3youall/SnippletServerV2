@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.com.sourcesistemas.dao.UserDAO;
@@ -99,4 +100,22 @@ public class HomeController {
 		return mav;
 	}
 
+	@Transactional
+	@RequestMapping(value = "/admin/cambiarPasswd")
+	public @ResponseBody String cambiarPasswd(String passwd1, String passwd2,Principal principal) {
+
+		if (passwd1.equals(passwd2)) {
+			try {
+			userDao.cambiarPassword(principal.getName(),passwd1);
+			}catch(Exception e) {
+				
+				return "error 500";
+			}
+			return "contrasenia cambiada con exito";
+		} else {
+
+			return "las contrasenias no coinciden";
+
+		}
+	}
 }
