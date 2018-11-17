@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import ar.com.sourcesistemas.model.Category;
@@ -25,6 +26,20 @@ public class CategoryDAOImpl implements CategoryDAO {
 		hibernateQuery.setParameter("userId", userId);
 		List<Category> category = hibernateQuery.list();
 		return category;
+	}
+
+	@Override
+	@Transactional
+	public void saveCategory(Category category){
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.save(category);
+
+	}
+	@Override
+	@Transactional
+	public void updateCategory(Category category){
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.update(category);
 	}
 
 	public SessionFactory getSessionFactory() {

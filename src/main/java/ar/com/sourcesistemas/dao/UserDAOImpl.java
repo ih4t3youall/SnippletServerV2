@@ -57,12 +57,14 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
+	@Transactional
 	public void update(User user) {
 		this.sessionFactory.getCurrentSession().update(user);
 		
 	}
 
 	@Override
+	@Transactional
 	public void cambiarPassword(String username, String passwd) {
 
 		User user =getUsernameByName(username);

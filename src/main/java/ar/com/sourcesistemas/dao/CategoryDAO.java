@@ -7,6 +7,7 @@ import ar.com.sourcesistemas.model.Category;
 public interface CategoryDAO {
 
 	List<Category> getCategoryByUserId(long userID);
-	
+	void saveCategory(Category category);
+	void updateCategory(Category category);
 	
 }
