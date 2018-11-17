@@ -20,18 +20,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user;
-		if (userDao == null) {
-
+		//if (userDao == null) {
 			user = new User();
 			user.setActive(1);
 			user.setName("martin");
 			user.setPassword("artemisa21");
 			System.out.println("userDAO = null");
 
-		} else {
-			user = userDao.getUsernameByName(username);
-			System.out.println("user loaded from database");
-		}
+		//} else {
+//			user = userDao.getUsernameByName(username);
+//			System.out.println("user loaded from database");
+//		}
 
 		System.out.println("User : " + user);
 		if (user == null) {
