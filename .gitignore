@@ -3,6 +3,7 @@
 .project
 .springBeans
 .settings
+.idea
 .idea/misc.xml
 .idea/vcs.xml
 .idea/compiler.xml
