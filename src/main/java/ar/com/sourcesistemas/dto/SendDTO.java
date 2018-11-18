@@ -13,14 +13,6 @@ public class SendDTO implements Serializable {
 	public String password;
 	public CategoriaDTO categoriaDTO;
 
-	public CategoriaDTO getCategoriaDTO() {
-		return categoriaDTO;
-	}
-
-	public void setCategoriaDTO(CategoriaDTO categoriaDTO) {
-		this.categoriaDTO = categoriaDTO;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -35,6 +27,14 @@ public class SendDTO implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public CategoriaDTO getCategoriaDTO() {
+		return categoriaDTO;
+	}
+
+	public void setCategoriaDTO(CategoriaDTO categoriaDTO) {
+		this.categoriaDTO = categoriaDTO;
 	}
 
 }

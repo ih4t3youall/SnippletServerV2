@@ -6,9 +6,9 @@ import ar.com.sourcesistemas.dto.CategoriaDTO;
 import ar.com.sourcesistemas.dto.SendDTO;
 import ar.com.sourcesistemas.dto.SnippletDTO;
 import ar.com.sourcesistemas.model.Category;
+import ar.com.sourcesistemas.model.Snipplet;
 import ar.com.sourcesistemas.model.User;
 import ar.com.sourcesistemas.utilities.ConvertToDTOUtility;
-import ar.com.sourcesistemas.utilities.GsonUtility;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 public class CloudController {

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import ar.com.sourcesistemas.dto.SnippletDTO;
 import com.google.gson.annotations.Expose;
 
 @Entity
@@ -32,8 +33,15 @@ public class Snipplet implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	private Category categoria;
-	
-	
+
+	public Snipplet(SnippletDTO snippletDTO, Category category) {
+	    this.titulo = snippletDTO.getTitulo();
+	    this.contenido = snippletDTO.getContenido();
+	   this.categoria = category;
+
+	}
+	public Snipplet(){}
+
 
 	public Long getId() {
 		return id;

@@ -185,7 +185,7 @@ nav ul {
 
 			<c:forEach var="cat" items="${category}" varStatus="status">
 
-				<li><a href="#" onClick="getSnipplets('${cat.categoriaID}')">${cat.nombre}</a></li>
+				<li><a href="#" onClick="getSnipplets('${cat.id}')">${cat.nombreCategoria}</a></li>
 
 			</c:forEach>
 		</ul>

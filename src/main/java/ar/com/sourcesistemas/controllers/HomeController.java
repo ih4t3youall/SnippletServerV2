@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.com.sourcesistemas.dao.UserDAO;
-import ar.com.sourcesistemas.dto.CategoriaDTO;
 import ar.com.sourcesistemas.model.Category;
 import ar.com.sourcesistemas.model.Snipplet;
 import ar.com.sourcesistemas.model.User;
-import ar.com.sourcesistemas.utilities.ConvertToDTOUtility;
 
 /**
  * Handles requests for the application home page.
@@ -56,7 +54,7 @@ public class HomeController {
 		}
 
 		ModelAndView model = new ModelAndView("home");
-		List<CategoriaDTO> cat = ConvertToDTOUtility.convertToUserDTO(viewUser);
+		List<Category> cat = viewUser.getCategory();
 		model.addObject("category", cat);
 		return model;
 
