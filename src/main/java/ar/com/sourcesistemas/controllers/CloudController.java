@@ -35,32 +35,43 @@ public class CloudController {
 
     @Autowired
     private CategoryDAO categoryDAO;
+
     private SendDTO getSendDTO(String jsonDTO){
 
         SendDTO sendDTO=null;
         try {
             log.info("parsing the string to sendDTO objet");
+            log.info("esto es nuevo");
             sendDTO =mapper.readValue(jsonDTO,SendDTO.class);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            log.error("error de parseo: "+e.toString());
             e.printStackTrace();
         }
+        log.info("end parsing the string to sendDTO objet");
 
         return sendDTO;
     }
 
     @RequestMapping(value ="returnCategory", method = RequestMethod.POST)
-    public String returnCategory(String jsonDTO) throws IOException {
+    public String returnCategory(@RequestBody String jsonDTO) throws IOException {
         SendDTO sendDTO = getSendDTO(jsonDTO);
+        log.info("return category ....");
         User user = userDao.getUsernameByName(sendDTO.getUsername());
         List<CategoriaDTO> categoriaDTO = ConvertToDTOUtility.convertToUserDTO(user);
 
-        String categoriaDTOjson = mapper.writeValueAsString(categoriaDTO);
-        return categoriaDTOjson;
+        CategoriaDTO collect = categoriaDTO.stream().filter(x -> x.getNombre().equals(sendDTO.getCategoriaDTO().getNombre())).collect(Collectors.toList()).get(0);
+
+        log.info("nombre categoria: "+collect.getNombre());
+
+        sendDTO.getCategoriaDTO().setSnipplets(collect.getSnipplets());
+        String returnSendDTO = mapper.writeValueAsString(sendDTO);
+        return returnSendDTO ;
     }
 
     @RequestMapping(value = "listarServer", method = RequestMethod.POST)
-    public String listarServer(String jsonDTO) {
+    public String listarServer(@RequestBody String jsonDTO) {
         String result = null;
+        log.info("jsondTO: "+jsonDTO);
         log.info("listando servidor...");
         SendDTO sendDTO = getSendDTO(jsonDTO);
         User user = userDao.getUsernameByName(sendDTO.getUsername());
@@ -70,13 +81,15 @@ public class CloudController {
         for (Category category : user.getCategory() ){
             log.info(category.getNombreCategoria());
         }
+        log.info("fin listado categorias");
 
         try {
             result = mapper.writeValueAsString(collect);
         } catch (IOException e) {
+            log.error("error en el writevalue as string");
             e.printStackTrace();
         }
-
+        log.info("result: "+result);
         return result;
 
     }
