@@ -35,21 +35,56 @@ public class CloudController {
 
     @Autowired
     private CategoryDAO categoryDAO;
+    private SendDTO getSendDTO(String jsonDTO){
 
-    @RequestMapping(value = "guardarCategoria", method = RequestMethod.POST)
-    public String saveSnipplet(@RequestBody String jsonDTO ){
         SendDTO sendDTO=null;
         try {
-             sendDTO =mapper.readValue(jsonDTO,SendDTO.class);
+            log.info("parsing the string to sendDTO objet");
+            sendDTO =mapper.readValue(jsonDTO,SendDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-         User user = userDao.getUsernameByName(sendDTO.getUsername());
-        log.info("user id: "+user.getId());
-        log.info("user id: "+user.getName());
-        log.info("user id: "+user.getPassword());
-        log.info("user id: "+user.getActive());
+        return sendDTO;
+    }
+
+    @RequestMapping(value ="returnCategory", method = RequestMethod.POST)
+    public String returnCategory(String jsonDTO) throws IOException {
+        SendDTO sendDTO = getSendDTO(jsonDTO);
+        User user = userDao.getUsernameByName(sendDTO.getUsername());
+        List<CategoriaDTO> categoriaDTO = ConvertToDTOUtility.convertToUserDTO(user);
+
+        String categoriaDTOjson = mapper.writeValueAsString(categoriaDTO);
+        return categoriaDTOjson;
+    }
+
+    @RequestMapping(value = "listarServer", method = RequestMethod.POST)
+    public String listarServer(String jsonDTO) {
+        String result = null;
+        log.info("listando servidor...");
+        SendDTO sendDTO = getSendDTO(jsonDTO);
+        User user = userDao.getUsernameByName(sendDTO.getUsername());
+        List<String> collect = user.getCategory().stream().map(s -> s.getNombreCategoria()).collect(Collectors.toList());
+        log.info("categorias ...");
+
+        for (Category category : user.getCategory() ){
+            log.info(category.getNombreCategoria());
+        }
+
+        try {
+            result = mapper.writeValueAsString(collect);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+
+    }
+
+    @RequestMapping(value = "guardarCategoria", method = RequestMethod.POST)
+    public String saveSnipplet(@RequestBody String jsonDTO ){
+        SendDTO sendDTO = getSendDTO(jsonDTO);
+        User user = userDao.getUsernameByName(sendDTO.getUsername());
 
         if (sendDTO != null) {
             String categoriaNombre = sendDTO.getCategoriaDTO().getNombre();
@@ -57,12 +92,10 @@ public class CloudController {
             List<Category> category = user.getCategory().stream().filter(x -> x.getNombreCategoria().equals(categoriaNombre)).collect(Collectors.toList());
 
             if(category.size() == 0){
-
                 Category categoria= ConvertToDTOUtility.convertTOCategory(sendDTO.getCategoriaDTO());
                 categoria.setUser(user);
                 user.addCategory(categoria);
                 categoryDAO.saveCategory(categoria);
-
             }
 
         }else {
