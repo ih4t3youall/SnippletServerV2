@@ -4,12 +4,6 @@
 .springBeans
 .settings
 .idea
-.idea/misc.xml
-.idea/vcs.xml
-.idea/compiler.xml
-.idea/encodings.xml
-.idea/workspace.xml
-.idea/misc.xml
-.idea/vcs.xml
+.idea/
 src/main/resources/log4j.properties
 /src/main/resources/log4j.properties
