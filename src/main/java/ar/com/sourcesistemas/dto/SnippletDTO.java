@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import ar.com.sourcesistemas.model.Snipplet;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"nombreCategoria"})
@@ -18,6 +19,18 @@ public class SnippletDTO implements Serializable {
     private String titulo;
     private String contenido;
 
+    public SnippletDTO(){}
+    public SnippletDTO(Snipplet snipplet){
+        this.titulo = snipplet.getTitulo();
+        this.contenido=snipplet.getContenido();
+    }
+    public SnippletDTO(Snipplet snipplet,String nombreCategoria){
+        this.titulo = snipplet.getTitulo();
+        this.contenido=snipplet.getContenido();
+        this.nombreCategoria = nombreCategoria;
+    }
+
+
 
 
     public void setNombreCategoria(String nombreCategoria){
@@ -25,7 +38,6 @@ public class SnippletDTO implements Serializable {
     }
     public String getNombreCategoria(){
         return this.nombreCategoria;
-
     }
 
     public String getTitulo() {

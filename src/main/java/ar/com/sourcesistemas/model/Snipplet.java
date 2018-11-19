@@ -40,6 +40,10 @@ public class Snipplet implements Serializable {
 	   this.categoria = category;
 
 	}
+	public Snipplet(String titulo,String contenido){
+		this.titulo =titulo;
+		this.contenido = contenido;
+	}
 	public Snipplet(){}
 
 

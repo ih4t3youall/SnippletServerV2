@@ -52,18 +52,18 @@ public class CloudController {
 
     @RequestMapping(value ="returnCategory", method = RequestMethod.POST)
     public String returnCategory(@RequestBody String jsonDTO) throws IOException {
+        log.info("Return category....");
         SendDTO sendDTO = getSendDTO(jsonDTO);
-        log.info("return category ....");
         User user = userDao.getUsernameByName(sendDTO.getUsername());
-        List<CategoriaDTO> categoriaDTO = ConvertToDTOUtility.convertToUserDTO(user);
-
-        CategoriaDTO collect = categoriaDTO.stream().filter(x -> x.getNombre().equals(sendDTO.getCategoriaDTO().getNombre())).collect(Collectors.toList()).get(0);
-
-        log.info("nombre categoria: "+collect.getNombre());
-
-        sendDTO.getCategoriaDTO().setSnipplets(collect.getSnipplets());
-        String returnSendDTO = mapper.writeValueAsString(sendDTO);
-        return returnSendDTO ;
+        user.getCategory().stream().forEach(x -> log.info(x.getNombreCategoria()));
+        Category category = user.getCategory().stream().filter(x -> x.getNombreCategoria().equals(sendDTO.getCategoriaDTO().getNombre())).collect(Collectors.toList()).get(0);
+        CategoriaDTO categoriaDTO = ConvertToDTOUtility.fromCategoryToCategoryDTO(category);
+        log.info("Categoria a devolver: "+categoriaDTO.getNombre());
+        log.info("Snipplets a devolver:");
+        categoriaDTO.getSnipplets().stream().forEach(x -> log.info(x.getTitulo()));
+        sendDTO.setCategoriaDTO(categoriaDTO);
+        String result = mapper.writeValueAsString(sendDTO);
+        return result ;
     }
 
     @RequestMapping(value = "listarServer", method = RequestMethod.POST)
