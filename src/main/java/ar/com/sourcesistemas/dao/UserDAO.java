@@ -1,8 +1,9 @@
 package ar.com.sourcesistemas.dao;
 
-import java.util.List;
 
-import ar.com.sourcesistemas.model.User;
+import ar.com.commons.send.domain.User;
+
+import java.util.List;
 
 public interface UserDAO {
 	public List<User> list();

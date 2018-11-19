@@ -1,8 +1,7 @@
 package ar.com.sourcesistemas.authenticationmanager;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import ar.com.commons.send.domain.User;
+import ar.com.sourcesistemas.dao.UserDAO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.sourcesistemas.dao.UserDAO;
-import ar.com.sourcesistemas.model.User;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomUserDetailsService implements UserDetailsService {
 

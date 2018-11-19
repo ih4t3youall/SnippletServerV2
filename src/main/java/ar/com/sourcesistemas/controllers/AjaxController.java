@@ -1,23 +1,21 @@
 package ar.com.sourcesistemas.controllers;
 
-import java.security.Principal;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import ar.com.commons.send.domain.Category;
+import ar.com.commons.send.domain.Snipplet;
+import ar.com.commons.send.domain.User;
+import ar.com.sourcesistemas.dao.SnippletDAO;
+import ar.com.sourcesistemas.dao.UserDAO;
+import ar.com.sourcesistemas.utilities.GsonUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.com.sourcesistemas.dao.SnippletDAO;
-import ar.com.sourcesistemas.dao.UserDAO;
-import ar.com.sourcesistemas.model.Category;
-import ar.com.sourcesistemas.model.Snipplet;
-import ar.com.sourcesistemas.model.User;
-import ar.com.sourcesistemas.utilities.GsonUtility;
+import javax.transaction.Transactional;
+import java.security.Principal;
+import java.util.Iterator;
+import java.util.List;
 
 @RestController
 public class AjaxController {

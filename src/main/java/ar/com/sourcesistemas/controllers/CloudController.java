@@ -1,21 +1,20 @@
 package ar.com.sourcesistemas.controllers;
 
+import ar.com.commons.send.domain.Category;
+import ar.com.commons.send.domain.User;
+import ar.com.commons.send.dto.CategoriaDTO;
+import ar.com.commons.send.dto.SendDTO;
+import ar.com.commons.send.dto.SnippletDTO;
 import ar.com.sourcesistemas.dao.CategoryDAO;
 import ar.com.sourcesistemas.dao.UserDAO;
-import ar.com.sourcesistemas.dto.CategoriaDTO;
-import ar.com.sourcesistemas.dto.SendDTO;
-import ar.com.sourcesistemas.dto.SnippletDTO;
-import ar.com.sourcesistemas.model.Category;
-import ar.com.sourcesistemas.model.Snipplet;
-import ar.com.sourcesistemas.model.User;
 import ar.com.sourcesistemas.utilities.ConvertToDTOUtility;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,13 +1,13 @@
 package ar.com.sourcesistemas.dao;
 
-import java.util.List;
-
+import ar.com.commons.send.domain.User;
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.sourcesistemas.model.User;
+import java.util.List;
+
 
 public class UserDAOImpl implements UserDAO {
 	private SessionFactory sessionFactory;

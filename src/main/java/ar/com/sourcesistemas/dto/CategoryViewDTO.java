@@ -1,5 +1,7 @@
 package ar.com.sourcesistemas.dto;
 
+import ar.com.commons.send.dto.CategoriaDTO;
+
 import java.util.List;
 
 public class CategoryViewDTO {

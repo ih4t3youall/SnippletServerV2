@@ -1,14 +1,13 @@
 package ar.com.sourcesistemas.dao;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import ar.com.commons.send.domain.Category;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import ar.com.sourcesistemas.model.Category;
+import javax.transaction.Transactional;
+import java.util.List;
+
 
 
 public class CategoryDAOImpl implements CategoryDAO {
@@ -21,7 +20,6 @@ public class CategoryDAOImpl implements CategoryDAO {
 	public List<Category> getCategoryByUserId(long userId) {
 
 		String sql = "from Category where user_id = :userId";
-		
 		Query hibernateQuery = sessionFactory.getCurrentSession().createQuery(sql);
 		hibernateQuery.setParameter("userId", userId);
 		List<Category> category = hibernateQuery.list();

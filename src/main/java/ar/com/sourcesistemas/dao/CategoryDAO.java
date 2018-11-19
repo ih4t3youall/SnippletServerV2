@@ -1,8 +1,8 @@
 package ar.com.sourcesistemas.dao;
 
-import java.util.List;
+import ar.com.commons.send.domain.Category;
 
-import ar.com.sourcesistemas.model.Category;
+import java.util.List;
 
 public interface CategoryDAO {
 

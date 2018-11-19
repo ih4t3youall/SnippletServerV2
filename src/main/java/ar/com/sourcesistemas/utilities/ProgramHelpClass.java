@@ -1,13 +1,12 @@
 package ar.com.sourcesistemas.utilities;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import ar.com.commons.send.domain.Category;
+import ar.com.commons.send.domain.Snipplet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.com.sourcesistemas.model.Category;
-import ar.com.sourcesistemas.model.Snipplet;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository("progHelp")
 public class ProgramHelpClass {

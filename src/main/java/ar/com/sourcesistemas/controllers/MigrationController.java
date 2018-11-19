@@ -1,5 +1,15 @@
 package ar.com.sourcesistemas.controllers;
 
+import ar.com.commons.send.domain.Category;
+import ar.com.commons.send.domain.User;
+import ar.com.commons.send.dto.CategoriaDTO;
+import ar.com.sourcesistemas.dao.UserDAO;
+import ar.com.sourcesistemas.utilities.ConvertToDTOUtility;
+import ar.com.sourcesistemas.utilities.GsonUtility;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,18 +18,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import ar.com.sourcesistemas.dao.UserDAO;
-import ar.com.sourcesistemas.dto.CategoriaDTO;
-import ar.com.sourcesistemas.migracion.Persistencia;
-import ar.com.sourcesistemas.model.Category;
-import ar.com.sourcesistemas.model.User;
-import ar.com.sourcesistemas.utilities.ConvertToDTOUtility;
-import ar.com.sourcesistemas.utilities.GsonUtility;
 
 @Controller
 public class MigrationController {

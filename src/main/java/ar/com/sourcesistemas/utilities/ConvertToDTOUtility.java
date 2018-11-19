@@ -1,20 +1,19 @@
 package ar.com.sourcesistemas.utilities;
+
+import ar.com.commons.send.domain.Category;
+import ar.com.commons.send.domain.Snipplet;
+import ar.com.commons.send.domain.User;
+import ar.com.commons.send.dto.CategoriaDTO;
+import ar.com.commons.send.dto.SnippletDTO;
+import ar.com.sourcesistemas.dto.CategoryViewDTO;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
-import ar.com.sourcesistemas.dto.SnippletDTO;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
-
-import ar.com.sourcesistemas.dto.CategoriaDTO;
-import ar.com.sourcesistemas.dto.CategoryViewDTO;
-import ar.com.sourcesistemas.model.Category;
-import ar.com.sourcesistemas.model.Snipplet;
-import ar.com.sourcesistemas.model.User;
 
 @Repository("ConvertToDTO")
 public class ConvertToDTOUtility {

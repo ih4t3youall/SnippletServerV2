@@ -8,10 +8,10 @@
     <property name="show_sql">true</property>  
     <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-     <mapping class="ar.com.sourcesistemas.model.Category"/>
-     <mapping class="ar.com.sourcesistemas.model.Role"/>
-     <mapping class="ar.com.sourcesistemas.model.Snipplet"/>
-     <mapping class="ar.com.sourcesistemas.model.User"/>
+     <mapping class="ar.com.commons.send.domain.Category"/>
+     <mapping class="ar.com.commons.send.domain.Role"/>
+     <mapping class="ar.com.commons.send.domain.Snipplet"/>
+     <mapping class="ar.com.commons.send.domain.User"/>
     
   </session-factory>
 </hibernate-configuration>

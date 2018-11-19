@@ -1,13 +1,12 @@
 package ar.com.sourcesistemas.dao;
 
-import java.util.List;
-
+import ar.com.commons.send.domain.Snipplet;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-import ar.com.sourcesistemas.model.Snipplet;
+import java.util.List;
 
 public class SnippletDAOImpl implements SnippletDAO {
 
