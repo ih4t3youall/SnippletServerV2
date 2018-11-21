@@ -8,6 +8,7 @@ import ar.com.commons.send.dto.SendDTO;
 import ar.com.commons.send.dto.SnippletDTO;
 import ar.com.commons.send.parser.ConvertToDTOUtility;
 import ar.com.sourcesistemas.dao.CategoryDAO;
+import ar.com.sourcesistemas.dao.SnippletDAO;
 import ar.com.sourcesistemas.dao.UserDAO;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -22,6 +23,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 @RestController
 public class CloudController {
 
@@ -33,6 +36,9 @@ public class CloudController {
 
 	@Autowired
 	private CategoryDAO categoryDAO;
+
+	@Autowired
+	private SnippletDAO snippletDAO;
 
 	private SendDTO getSendDTO(String jsonDTO) {
 
@@ -93,48 +99,38 @@ public class CloudController {
 	}
 
 	@RequestMapping(value = "guardarCategoria", method = RequestMethod.POST)
+	@Transactional
 	public String saveSnipplet(@RequestBody String jsonDTO) {
 		log.info("guardarCategoria ");
 		SendDTO sendDTO = null;
+		List<SnippletDTO> toAdd = new LinkedList<SnippletDTO>();
 		try {
 			sendDTO = getSendDTO(jsonDTO);
 		} catch (Exception e) {
 			log.info(e.toString());
+			throw e;
 		}
 		User user = userDao.getUsernameByName(sendDTO.getUsername());
-		String nameCategoryDTO = sendDTO.getCategoriaDTO().getNombre();
-		List<Category> userCategories = user.getCategory().stream()
-				.filter(x -> x.getNombreCategoria().equals(nameCategoryDTO)).collect(Collectors.toList());
-
-		Category userCategory = null;
-		List<SnippletDTO> toAdd = new LinkedList<SnippletDTO>();
-		if (userCategories.size() == 1) {
-			userCategory = userCategories.get(0);
+		String categoriaDTONombre = sendDTO.getCategoriaDTO().getNombre();
+		List<Category> categories = user.getCategory().stream()
+				.filter(x -> x.getNombreCategoria().equals(categoriaDTONombre)).collect(Collectors.toList());
+		if (categories.size() == 0) {
+			 addCategory(sendDTO.getCategoriaDTO(), user);
 		} else {
-			for (SnippletDTO snipDTO : sendDTO.getCategoriaDTO().getSnipplets()) {
-				toAdd.add(snipDTO);
+			mergeSnipplets(sendDTO, categories.get(0), toAdd);
+			for (SnippletDTO snipDTO : toAdd) {
+				Snipplet snipplet = ConvertToDTOUtility.fromSnippletDTOtoSnippletWithCategory(snipDTO,
+						categories.get(0));
+				snippletDAO.saveSnipplet(snipplet);
 			}
-
 		}
-		if (userCategory != null) {
-			mergeSnipplets(sendDTO, userCategory, toAdd);
-		} else {
-			addCategory(sendDTO.getCategoriaDTO(), user);
-
-		}
-
-		for (SnippletDTO snip : toAdd) {
-			Snipplet snipplet = ConvertToDTOUtility.fromSnippletDTOtoSnippletWithCategory(snip, userCategory);
-			userCategory.add(snipplet);
-		}
-		categoryDAO.saveCategory(userCategory);
 
 		return "hello";
 	}
 
 	private List<Category> addCategory(CategoriaDTO categoriaDTO, User user) {
 		List<Category> categories = null;
-		Category cat = new Category(categoriaDTO.getNombre(),user);
+		Category cat = new Category(categoriaDTO.getNombre(), user);
 		if (user.getCategory() == null) {
 			categories = new LinkedList<Category>();
 		} else {
@@ -143,9 +139,19 @@ public class CloudController {
 		for (SnippletDTO snipDTO : categoriaDTO.getSnipplets()) {
 			Snipplet snip = ConvertToDTOUtility.fromSnippletDTOtoSnippletWithCategory(snipDTO, cat);
 			cat.add(snip);
+			cat.setUser(user);
+		}
+		categoryDAO.saveCategory(cat);
+		// borrar
+		for (Category cato : categories) {
+			System.out.println(cato.getNombreCategoria());
+			for (Snipplet snop : cato.getSnipplets()) {
+				System.out.println(snop.getTitulo());
+				System.out.println(snop.getContenido());
+			}
 
 		}
-		categories.add(cat);
+		// borrar
 		return categories;
 
 	}
@@ -158,8 +164,8 @@ public class CloudController {
 	public void mergeSnipplets(SendDTO sendDTO, Category userCategory, List<SnippletDTO> toAdd) {
 
 		log.info("Saving object");
-		boolean modify = false;
 		for (SnippletDTO sDTO : sendDTO.getCategoriaDTO().getSnipplets()) {
+		boolean modify = false;
 
 			log.info("sDTO: " + sDTO.getTitulo());
 			for (Snipplet s : userCategory.getSnipplets()) {
@@ -167,11 +173,12 @@ public class CloudController {
 
 				if (sDTO.getTitulo().equals(s.getTitulo())) {
 
+						modify = true;
 					if (!sDTO.getContenido().equals(s.getContenido())) {
 
 						log.info("actualizando contenido");
 						s.setContenido(sDTO.getContenido());
-						modify = true;
+						snippletDAO.saveSnipplet(s);	
 
 					}
 
