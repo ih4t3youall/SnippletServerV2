@@ -11,6 +11,8 @@ import ar.com.sourcesistemas.dao.CategoryDAO;
 import ar.com.sourcesistemas.dao.SnippletDAO;
 import ar.com.sourcesistemas.dao.UserDAO;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -100,7 +103,8 @@ public class CloudController {
 
 	@RequestMapping(value = "guardarCategoria", method = RequestMethod.POST)
 	@Transactional
-	public String saveSnipplet(@RequestBody String jsonDTO) {
+	public String saveSnipplet(@RequestBody String jsonDTO)
+			throws JsonGenerationException, JsonMappingException, IOException {
 		log.info("guardarCategoria ");
 		SendDTO sendDTO = null;
 		List<SnippletDTO> toAdd = new LinkedList<SnippletDTO>();
@@ -115,7 +119,7 @@ public class CloudController {
 		List<Category> categories = user.getCategory().stream()
 				.filter(x -> x.getNombreCategoria().equals(categoriaDTONombre)).collect(Collectors.toList());
 		if (categories.size() == 0) {
-			 addCategory(sendDTO.getCategoriaDTO(), user);
+			addCategory(sendDTO.getCategoriaDTO(), user);
 		} else {
 			mergeSnipplets(sendDTO, categories.get(0), toAdd);
 			for (SnippletDTO snipDTO : toAdd) {
@@ -125,7 +129,15 @@ public class CloudController {
 			}
 		}
 
-		return "hello";
+		User responseUser = userDao.getUsernameByName(sendDTO.getUsername());
+		String responseNombreCategoriaDTO = sendDTO.getCategoriaDTO().getNombre();
+		Category responseCategory = responseUser.getCategory().stream().filter(x -> x.getNombreCategoria().equals(responseNombreCategoriaDTO)).collect(Collectors.toList()).get(0);
+		CategoriaDTO responseCategoriaDTO = ConvertToDTOUtility.fromCategoryToCategoryDTO(responseCategory);
+		sendDTO.setCategoriaDTO(responseCategoriaDTO);
+		for(SnippletDTO snip : toAdd){
+			sendDTO.getCategoriaDTO().addSnipplet(snip);
+		}
+		return mapper.writeValueAsString(sendDTO);
 	}
 
 	private List<Category> addCategory(CategoriaDTO categoriaDTO, User user) {
@@ -165,7 +177,7 @@ public class CloudController {
 
 		log.info("Saving object");
 		for (SnippletDTO sDTO : sendDTO.getCategoriaDTO().getSnipplets()) {
-		boolean modify = false;
+			boolean modify = false;
 
 			log.info("sDTO: " + sDTO.getTitulo());
 			for (Snipplet s : userCategory.getSnipplets()) {
@@ -173,12 +185,12 @@ public class CloudController {
 
 				if (sDTO.getTitulo().equals(s.getTitulo())) {
 
-						modify = true;
+					modify = true;
 					if (!sDTO.getContenido().equals(s.getContenido())) {
 
 						log.info("actualizando contenido");
 						s.setContenido(sDTO.getContenido());
-						snippletDAO.saveSnipplet(s);	
+						snippletDAO.saveSnipplet(s);
 
 					}
 
