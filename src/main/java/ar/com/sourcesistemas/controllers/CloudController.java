@@ -131,13 +131,18 @@ public class CloudController {
 
 		User responseUser = userDao.getUsernameByName(sendDTO.getUsername());
 		String responseNombreCategoriaDTO = sendDTO.getCategoriaDTO().getNombre();
-		Category responseCategory = responseUser.getCategory().stream().filter(x -> x.getNombreCategoria().equals(responseNombreCategoriaDTO)).collect(Collectors.toList()).get(0);
+		List<Category> responseCategorys = responseUser.getCategory().stream().filter(x -> x.getNombreCategoria().equals(responseNombreCategoriaDTO)).collect(Collectors.toList());
+		if(responseCategorys.size() == 1 ){
+			Category responseCategory = responseCategorys.get(0);
 		CategoriaDTO responseCategoriaDTO = ConvertToDTOUtility.fromCategoryToCategoryDTO(responseCategory);
 		sendDTO.setCategoriaDTO(responseCategoriaDTO);
 		for(SnippletDTO snip : toAdd){
 			sendDTO.getCategoriaDTO().addSnipplet(snip);
 		}
 		return mapper.writeValueAsString(sendDTO);
+		}else {
+			return null;
+		}
 	}
 
 	private List<Category> addCategory(CategoriaDTO categoriaDTO, User user) {
