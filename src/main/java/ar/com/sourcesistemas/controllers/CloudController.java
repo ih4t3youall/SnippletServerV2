@@ -4,6 +4,7 @@ import ar.com.commons.send.domain.Category;
 import ar.com.commons.send.domain.Snipplet;
 import ar.com.commons.send.domain.User;
 import ar.com.commons.send.dto.CategoriaDTO;
+import ar.com.commons.send.dto.IpDTO;
 import ar.com.commons.send.dto.SendDTO;
 import ar.com.commons.send.dto.SnippletDTO;
 import ar.com.commons.send.parser.ConvertToDTOUtility;
@@ -20,13 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
 
 @RestController
 public class CloudController {
@@ -42,6 +43,8 @@ public class CloudController {
 
 	@Autowired
 	private SnippletDAO snippletDAO;
+
+	private Map<String,String> mapIp = new HashMap<String,String>();
 
 	private SendDTO getSendDTO(String jsonDTO) {
 
@@ -101,6 +104,14 @@ public class CloudController {
 
 	}
 
+	@RequestMapping(value = "actualizarIp", method = RequestMethod.POST)
+	public String updateIp(@RequestBody String ip) throws IOException {
+		IpDTO ipDTO = mapper.readValue(ip, IpDTO.class);
+		log.info("Se actualizo la ip a: "+ipDTO.getIp()+ " para: "+ipDTO.getNombrePc());
+		mapIp.put(ipDTO.getNombrePc(),ipDTO.getIp());
+		return "200ok";
+	}
+
 	@RequestMapping(value = "guardarCategoria", method = RequestMethod.POST)
 	@Transactional
 	public String saveSnipplet(@RequestBody String jsonDTO)
@@ -134,12 +145,12 @@ public class CloudController {
 		List<Category> responseCategorys = responseUser.getCategory().stream().filter(x -> x.getNombreCategoria().equals(responseNombreCategoriaDTO)).collect(Collectors.toList());
 		if(responseCategorys.size() == 1 ){
 			Category responseCategory = responseCategorys.get(0);
-		CategoriaDTO responseCategoriaDTO = ConvertToDTOUtility.fromCategoryToCategoryDTO(responseCategory);
-		sendDTO.setCategoriaDTO(responseCategoriaDTO);
-		for(SnippletDTO snip : toAdd){
-			sendDTO.getCategoriaDTO().addSnipplet(snip);
-		}
-		return mapper.writeValueAsString(sendDTO);
+			CategoriaDTO responseCategoriaDTO = ConvertToDTOUtility.fromCategoryToCategoryDTO(responseCategory);
+			sendDTO.setCategoriaDTO(responseCategoriaDTO);
+			for(SnippletDTO snip : toAdd){
+				sendDTO.getCategoriaDTO().addSnipplet(snip);
+			}
+			return mapper.writeValueAsString(sendDTO);
 		}else {
 			return null;
 		}
